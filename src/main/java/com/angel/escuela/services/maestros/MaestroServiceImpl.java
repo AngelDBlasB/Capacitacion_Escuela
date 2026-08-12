@@ -3,7 +3,9 @@ package com.angel.escuela.services.maestros;
 import com.angel.escuela.dto.maestros.MaestroRequest;
 import com.angel.escuela.dto.maestros.MaestroResponse;
 import com.angel.escuela.entities.Maestro;
+import com.angel.escuela.exceptions.EntidadRelacionadaException;
 import com.angel.escuela.mappers.MaestroMapper;
+import com.angel.escuela.repositories.GrupoRepository;
 import com.angel.escuela.repositories.MaestroRepository;
 import com.angel.escuela.utils.ServiceUtils;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class MaestroServiceImpl implements MaestroService{
 
     private final MaestroRepository maestroRepository;
+    private final GrupoRepository grupoRepository;
 
     private final MaestroMapper maestroMapper;
 
@@ -82,7 +85,12 @@ public class MaestroServiceImpl implements MaestroService{
 
         log.info("Eliminando maestro con id: {}", id);
 
+        if(grupoRepository.existsByMaestroId(id))
+            throw new EntidadRelacionadaException(
+                    "No se puede eliminar el maestro ya que tiene grupos asignados");
+
         maestroRepository.delete(maestro);
+
         log.info("Maestro {} eliminado correctamente", maestro.getNombre());
 
     }
