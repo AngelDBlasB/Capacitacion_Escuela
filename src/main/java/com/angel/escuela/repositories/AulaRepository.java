@@ -1,0 +1,11 @@
+package com.angel.escuela.repositories;
+
+import com.angel.escuela.entities.Aula;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AulaRepository extends JpaRepository<Aula, Long> {
+
+    boolean existsByNombreIgnoreCase(String nombre);
+    boolean existsByNombreIgnoreCaseAndIdNot(String email , Long id);
+
+}
