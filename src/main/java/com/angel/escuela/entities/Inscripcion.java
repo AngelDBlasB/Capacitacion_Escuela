@@ -38,4 +38,28 @@ public class Inscripcion {
 
     @OneToOne(mappedBy = "inscripcion")
     private Calificacion calificacion;
+
+    public void validarDatos(Alumno alumno, Grupo grupo) {
+
+        if (alumno == null || alumno.getId() < 0 )
+            throw new IllegalArgumentException("El idAlumno es requerido y debe ser positivo");
+
+        if (grupo == null || grupo.getId() < 0 )
+            throw new IllegalArgumentException("El idGrupo es requerido y debe ser positivo");
+
+    }
+
+    public void actualizar(Alumno alumno, Grupo grupo) {
+
+        validarDatos(alumno, grupo);
+
+        this.alumno = alumno;
+        this.grupo = grupo;
+
+    }
+
+    public boolean cambioEnDatos(Alumno alumno, Grupo grupo) {
+        return !this.alumno.equals(alumno) ||
+                !this.grupo.equals(grupo);
+    }
 }

@@ -51,6 +51,8 @@ public class HorarioServiceImpl implements HorarioService {
         DiaSemana dia = obtenerDiaSemanaPorDescripcion(request.dia());
         Grupo grupo = obtenerGrupo(request.idGrupo());
 
+        validarRangoHoras(request.horaInicio(), request.horaFin());
+
         if (horarioRepository.existeTraslapePorGrupo(grupo.getId(), dia, request.horaInicio(), request.horaFin())) {
             throw new IllegalArgumentException(
                     String.format("El grupo ya tiene una clase asignada el %s en el rango de %s a %s.",
@@ -107,6 +109,8 @@ public class HorarioServiceImpl implements HorarioService {
                 );
             }
 
+            validarRangoHoras(request.horaInicio(), request.horaFin());
+
             horario.actualizar(
                     grupo,
                     dia,
@@ -138,6 +142,12 @@ public class HorarioServiceImpl implements HorarioService {
 
     private Grupo obtenerGrupo(Long id) {
         return ServiceUtils.obtenerEntidadOExcepcion(grupoRepository,id, Grupo.class);
+    }
+
+    private void validarRangoHoras(String horaInicio, String horaFin) {
+        if (horaInicio != null && horaFin != null && horaFin.compareTo(horaInicio) <= 0) {
+            throw new IllegalArgumentException("La hora de inicio debe ser estrictamente anterior a la hora de fin.");
+        }
     }
 
 }
