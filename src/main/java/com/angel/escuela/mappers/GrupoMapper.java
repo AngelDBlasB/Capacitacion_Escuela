@@ -101,7 +101,7 @@ public class GrupoMapper implements CommonMapper<GrupoRequest, GrupoResponse, Gr
 
         return entidad.getHorarios().stream()
                 .map(horario -> String.format("%s %s - %s",
-                        horario.getDiasemana(),
+                        horario.getDia(),
                         horario.getHoraInicio(),
                         horario.getHoraFin()
                 )

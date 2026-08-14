@@ -23,9 +23,9 @@ public enum DiaSemana {
 
         String descripcionNormalizada = StringCustomUtils.quitarAcentos(descripcion);
 
-        for(DiaSemana diasemana : values()){
-            if (StringCustomUtils.quitarAcentos(diasemana.descripcion).equalsIgnoreCase(descripcionNormalizada))
-                return diasemana;
+        for(DiaSemana dia : values()){
+            if (StringCustomUtils.quitarAcentos(dia.descripcion).equalsIgnoreCase(descripcionNormalizada))
+                return dia;
         }
 
         throw new RecursoNoEncontradoException("No existe un día de la semana con la descripción: " + descripcion);
