@@ -25,10 +25,40 @@ public class Calificacion {
     @Column(name = "CALIFICACION", nullable = false)
     private BigDecimal calificacion;
 
+    @Builder.Default
     @Column(name = "FECHA_REGISTRO", nullable = false)
     private LocalDate fechaRegistro = LocalDate.now();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn (name="ID_INSCRIPCION", unique=true, nullable = false)
     private Inscripcion inscripcion;
+
+    public void asignarValores(Inscripcion inscripcion) {
+        this.inscripcion = inscripcion;
+    }
+
+    public void validarDatos(Inscripcion inscripcion, BigDecimal calificacion) {
+
+        if (inscripcion == null || inscripcion.getId() < 0 )
+            throw new IllegalArgumentException("El idInscripcion es requerido y debe ser positivo");
+        if (calificacion == null)
+            throw new IllegalArgumentException("El idInscripcion es requerido y debe estar entre 0 y 10");
+
+    }
+
+    public void actualizar(Inscripcion  inscripcion, BigDecimal calificacion) {
+
+        validarDatos(inscripcion, calificacion);
+
+        this.calificacion = calificacion;
+        this.inscripcion = inscripcion;
+
+    }
+
+    public boolean cambioEnDatos(Inscripcion inscripcion, BigDecimal calificacion) {
+        return !this.calificacion.equals(calificacion) ||
+                !this.inscripcion.equals(inscripcion);
+    }
+
+
 }

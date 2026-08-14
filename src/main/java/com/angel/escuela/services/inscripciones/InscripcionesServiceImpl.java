@@ -32,6 +32,7 @@ public class InscripcionesServiceImpl implements InscripcionesService {
     private final CalificacionRepository calificacionRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<InscripcionResponse> listar() {
 
         log.info("Listando inscripciones");
@@ -42,6 +43,7 @@ public class InscripcionesServiceImpl implements InscripcionesService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public InscripcionResponse obtenerPorId(Long id) {
         return inscripcionMapper.entidadAResponse(obtenerInscripcion(id));
     }
